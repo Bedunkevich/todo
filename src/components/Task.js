@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { STATUS } from '../const';
 import { SmallButton } from '../ui';
@@ -42,5 +43,11 @@ const Task = ({ store, task, rootIndex }) => (
     </SmallButton>
   </StyledItem>
 );
+
+Task.propTypes = {
+  store: PropTypes.object.isRequired,
+  rootIndex: PropTypes.number.isRequired,
+  task: PropTypes.object.isRequired
+};
 
 export default Task;

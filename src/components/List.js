@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { SmallButton } from '../ui';
 
@@ -33,5 +34,12 @@ const List = ({ store, index, list, handleClick }) => (
     {` tasks ${list.tasks.length}`}
   </StyledItem>
 );
+
+List.propTypes = {
+  store: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  list: PropTypes.object.isRequired,
+  handleClick: PropTypes.func.isRequired
+};
 
 export default List;

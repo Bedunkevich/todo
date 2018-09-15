@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
 import List from './components/List';
@@ -44,6 +45,10 @@ class App extends Component {
     selectedList: undefined,
     filterBy: STATUS.ALL,
     filterString: undefined
+  };
+
+  static propTypes = {
+    store: PropTypes.object.isRequired
   };
 
   createToDoList = () => {
