@@ -18,7 +18,6 @@ class Store {
   };
 
   toDoList = this.initialData.toDoList;
-  lastId = this.initialData.lastId;
 
   // Create new ToDo list
   createToDoList = ({ title }) => {

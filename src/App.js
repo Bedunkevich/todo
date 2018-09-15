@@ -61,25 +61,6 @@ class App extends Component {
     this.setState({ selectedList: index });
   };
 
-  renderList = (list, index) => {
-    const { title } = list;
-    const { store } = this.props;
-    return (
-      <div key={index}>
-        {index}.
-        <input
-          value={title}
-          onClick={this.selectTask(index)}
-          onChange={event =>
-            store.updateToDoList(index, { title: event.target.value })
-          }
-        />
-        <button onClick={() => store.moveToDoListUp(index)}>Up</button>
-        <button onClick={() => store.moveToDoListDown(index)}>Down</button>
-      </div>
-    );
-  };
-
   renderTasks = rootIndex => {
     const { store } = this.props;
     const { filterBy, filterString } = this.state;
