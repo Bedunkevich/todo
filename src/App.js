@@ -1,11 +1,43 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { observer } from 'mobx-react';
-import logo from './logo.svg';
-import './App.css';
 import List from './components/List';
 import Task from './components/Task';
+import { Button } from './ui';
 import { STATUS } from './const';
 import { isEmpty as _isEmpty } from 'lodash';
+
+const MainContainer = styled.div`
+  display: flex;
+  margin: 1em;
+`;
+
+const ListsContainer = styled.ul`
+  margin: 1em 0;
+  padding: 0;
+  list-style: none;
+  line-height: 200%;
+`;
+
+const TaskListContainer = styled(ListsContainer)``;
+
+const TasksContainer = styled.ul`
+  margin-left: 16px;
+  flex: 1;
+
+  select {
+    font-size: medium;
+    margin-right: 1em;
+  }
+
+  input[type="topsearch"] {
+    font-size: medium;
+    padding: 0.5em;
+    outline: none;
+    border: 1px solid blue;
+    border-radius: 1em;
+  }
+`;
 
 class App extends Component {
   state = {
@@ -17,7 +49,7 @@ class App extends Component {
   createToDoList = () => {
     const { store } = this.props;
 
-    store.createToDoList({ title: 'new list' });
+    store.createToDoList({ title: '' });
   };
 
   selectTask = index => () => {
@@ -68,17 +100,18 @@ class App extends Component {
     }
 
     return (
-      <div>
-        <button
+      <TasksContainer>
+        <Button
+          id="add-new-task"
           onClick={() =>
             store.createToDoTask(rootIndex, {
-              title: 'new task',
+              title: '',
               status: STATUS.PENDING
             })
           }
         >
-          Add New
-        </button>
+          Add new task
+        </Button>
 
         <select
           onChange={event => this.setState({ filterBy: event.target.value })}
@@ -90,20 +123,23 @@ class App extends Component {
 
         <input
           placeholder="search"
+          type="topsearch"
           onChange={event =>
             this.setState({ filterString: event.target.value })
           }
         />
 
-        {tasks.map(task => (
-          <Task
-            key={task.realIndex}
-            store={store}
-            task={task}
-            rootIndex={rootIndex}
-          />
-        ))}
-      </div>
+        <TaskListContainer>
+          {tasks.map(task => (
+            <Task
+              key={task.realIndex}
+              store={store}
+              task={task}
+              rootIndex={rootIndex}
+            />
+          ))}
+        </TaskListContainer>
+      </TasksContainer>
     );
   };
 
@@ -113,26 +149,26 @@ class App extends Component {
     const { toDoList } = store;
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React ToDo</h1>
-        </header>
+      <MainContainer>
+        <div>
+          <Button id="add-new-list" onClick={this.createToDoList}>
+            Add new list
+          </Button>
 
-        <button onClick={this.createToDoList}>New</button>
-
-        {toDoList.map((list, index) => (
-          <List
-            key={index}
-            list={list}
-            index={index}
-            store={store}
-            handleClick={this.selectTask(index)}
-          />
-        ))}
-        <hr />
+          <ListsContainer>
+            {toDoList.map((list, index) => (
+              <List
+                key={index}
+                list={list}
+                index={index}
+                store={store}
+                handleClick={this.selectTask(index)}
+              />
+            ))}
+          </ListsContainer>
+        </div>
         {selectedList !== undefined && this.renderTasks(selectedList)}
-      </div>
+      </MainContainer>
     );
   }
 }

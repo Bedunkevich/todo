@@ -1,8 +1,27 @@
 import React from 'react';
+import styled from 'styled-components';
+import { STATUS } from '../const';
+import { SmallButton } from '../ui';
+
+const StyledItem = styled.li`
+  input {
+    padding: 8px;
+    outline: none;
+    margin-right: 8px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: medium;
+
+    ${props =>
+    props.isCompeleted &&
+      'color: #777; text-decoration: line-through;'} :focus {
+      border-bottom: 1px solid #111;
+    }
+  }
+`;
 
 const Task = ({ store, task, rootIndex }) => (
-  <div key={task.realIndex}>
-    {task.realIndex} {task.title} . {task.status}
+  <StyledItem isCompeleted={task.status === STATUS.COMPLETED}>
     <input
       value={task.title}
       onChange={event =>
@@ -11,15 +30,17 @@ const Task = ({ store, task, rootIndex }) => (
         })
       }
     />
-    <button onClick={() => store.deleteToDoTask(rootIndex, task.realIndex)}>
+    <SmallButton
+      onClick={() => store.deleteToDoTask(rootIndex, task.realIndex)}
+    >
       Delete
-    </button>
-    <button
+    </SmallButton>
+    <SmallButton
       onClick={() => store.toggleToDoTaskStatus(rootIndex, task.realIndex)}
     >
-      Toggle
-    </button>
-  </div>
+      Toggle status
+    </SmallButton>
+  </StyledItem>
 );
 
 export default Task;
